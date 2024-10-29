@@ -2,7 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4; /* Light background for better contrast */
-    background-image: url(images/bg.jpeg);
+    background-image: url(bg.jpeg);
     color: #333; /* Dark text for readability */
     margin: 0;
     padding: 20px; /* Add some padding */
