@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer's Product Upload - AgriGrow</title>
+    <link rel="stylesheet" href="goods.css">
+    <style>
+        
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-image: url('images/bg.jpeg'); /* Add your background image URL here */
+                background-size: cover; /* Cover the entire screen */
+                background-position: center;
+            }
+            .container {
+                max-width: 600px;
+                margin: auto;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            h2 {
+                text-align: center;
+                color: #333;
+            }
+            .input-group {
+                margin-bottom: 15px;
+            }
+            .input-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: #555;
+            }
+            .input-group input, .input-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            .btn {
+                background-color: #28a745;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                width: 100%;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+            .btn:hover {
+                background-color: #218838;
+            }
+            #msg {
+                text-align: center;
+                margin-top: 10px;
+            }
+            footer {
+                text-align: center;
+                margin-top: 20px;
+                color: #777;
+            }
+            .product-list {
+                margin-top: 20px;
+                border-top: 1px solid #ccc;
+                padding-top: 10px;
+            }
+            .product-item {
+                margin: 5px 0;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+            }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="product-title">Add a Product to AgriGrow</h2>
+        <form name="submit-to-google-sheet">
+            <div class="input-group">
+                <label for="farmer-name" id="label-farmer-name">Farmer's Name</label>
+                <input type="text" id="farmer-name" name="farmer_name" placeholder="Enter farmer's name" required>
+            </div>
+            <div class="input-group">
+                <label for="product-name" id="label-product-name">Product Name</label>
+                <input type="text" id="product-name" name="name" placeholder="Enter product name" required>
+            </div>
+            <div class="input-group">
+                <label for="category" id="label-category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="grains">Grains</option>
+                    <option value="dairy">Dairy</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="quantity" id="label-quantity">Quantity</label>
+                <input type="text" id="quantity" name="quantity" placeholder="e.g., 1kg, 250g" required>
+            </div>
+            <div class="input-group">
+                <label for="price" id="label-price">Price (₹ per kg)</label>
+                <input type="number" id="price" name="price/kg" placeholder="Enter price per kg" required>
+            </div>
+            <div class="input-group">
+                <label for="farmer-address" id="label-farmer-address">Farmer's Address (pincode)</label>
+                <input type="text" id="farmer-address" name="address" placeholder="Enter farmer's address" required>
+            </div>
+            <div class="input-group">
+                <label for="payment-number" id="label-payment-number">Phone Number</label>
+                <input type="text" id="payment-number" name="payment_number" placeholder="Enter payment number" required pattern="^\d{10}$" title="Please enter a valid 10-digit phone number">
+            </div>
+            <button type="submit" class="btn btn2">Add Product</button>
+        </form>
+        <span id="msg"></span> 
+        <span id="timestamp" style="display:none;"></span>
+
+        <div class="product-list" id="product-list">
+            <h3>Products Submitted</h3>
+            <div id="products-container"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="copyright">
+            <p>copyright @AgriGrow made with <i class="fas fa-heart"></i></p>
+        </div>
+    </footer>
+
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbw3tgSZ3lQ8isZbGGPlZfQT32lgF2dZn3yio7UsTMHl4E8F_n_gFRHqqINTfkRwrXuQ/exec";
+        const form = document.forms['submit-to-google-sheet'];
+        const msg = document.getElementById("msg");
+        const timestampElement = document.getElementById("timestamp");
+        const productsContainer = document.getElementById("products-container");
+
+        const storedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+        function updateLanguageContent(language) {
+            const translations = {
+                en: {
+                    title: "Add a Product to AgriGrow",
+                    farmerName: "Farmer's Name",
+                    productName: "Product Name",
+                    category: "Category",
+                    quantity: "Quantity",
+                    price: "Price (₹ per kg)",
+                    farmerAddress: "Farmer's Address",
+                    paymentNumber: "Phone Number",
+                    addButton: "Add Product",
+                    successMessage: "Product added successfully!",
+                },
+                hi: {
+                    title: "एग्रीग्रो में एक उत्पाद जोड़ें",
+                    farmerName: "किसान का नाम",
+                    productName: "उत्पाद का नाम",
+                    category: "श्रेणी",
+                    quantity: "मात्रा",
+                    price: "कीमत (₹ प्रति किलोग्राम)",
+                    farmerAddress: "किसान का पता",
+                    paymentNumber: "फोन नंबर",
+                    addButton: "उत्पाद जोड़ें",
+                    successMessage: "उत्पाद सफलतापूर्वक जोड़ा गया!",
+                },
+                te: {
+                    title: "అగ్రిగ్రోలో ఉత్పత్తిని చేర్చండి",
+                    farmerName: "వ్యవసాయదారుడి పేరు",
+                    productName: "ఉత్పత్తి పేరు",
+                    category: "వర్గం",
+                    quantity: "పరిమాణం",
+                    price: "ధర (₹ కిలో)",
+                    farmerAddress: "వ్యవసాయదారుడి చిరునామా",
+                    paymentNumber: "ఫోన్ నంబర్",
+                    addButton: "ఉత్పత్తిని చేర్చండి",
+                    successMessage: "ఉత్పత్తి విజయవంతంగా చేర్చబడింది!",
+                }
+            };
+
+            const translation = translations[language];
+
+            document.getElementById("product-title").textContent = translation.title;
+            document.getElementById("label-farmer-name").textContent = translation.farmerName;
+            document.getElementById("label-product-name").textContent = translation.productName;
+            document.getElementById("label-category").textContent = translation.category;
+            document.getElementById("label-quantity").textContent = translation.quantity;
+            document.getElementById("label-price").textContent = translation.price;
+            document.getElementById("label-farmer-address").textContent = translation.farmerAddress;
+            document.getElementById("label-payment-number").textContent = translation.paymentNumber;
+            form.querySelector('.btn').textContent = translation.addButton;
+        }
+
+        updateLanguageContent(storedLanguage);
+
+        const hyderabadPincodes = [
+            "500001", "500002", "500003", "500004", "500005",
+            "500006", "500007", "500008", "500009", "500010",
+            "500011", "500012", "500013", "500014", "500015",
+            "500016", "500017", "500018", "500019", "500020",
+            "500021", "500022", "500023", "500024"
+        ];
+
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            products.forEach(product => {
+                displayProduct(product);
+            });
+        }
+
+        function displayProduct(product) {
+            const productItem = document.createElement("div");
+            productItem.classList.add("product-item");
+            productItem.innerHTML = `
+                <strong>Farmer: ${product.farmerName}</strong><br>
+                Product: ${product.name}<br>
+                Category: ${product.category}<br>
+                Quantity: ${product.quantity}<br>
+                Price: ₹${product.price}/kg<br>
+                Address: ${product.address}
+            `;
+            productsContainer.appendChild(productItem);
+        }
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const farmerAddress = document.getElementById('farmer-address').value;
+            const isValidAddress = hyderabadPincodes.some(pincode => farmerAddress.includes(pincode));
+
+            if (!isValidAddress) {
+                msg.innerHTML = "Please enter an address that includes a valid Hyderabad pincode.";
+                msg.style.color = "red";
+                return;
+            }
+
+            const formData = new FormData(form);
+
+            const timestamp = new Date().toLocaleString();
+            formData.append("timestamp", timestamp);
+
+            const product = {
+                farmerName: formData.get("farmer_name"),
+                name: formData.get("name"),
+                category: formData.get("category"),
+                quantity: formData.get("quantity"),
+                price: formData.get("price/kg"),
+                address: formData.get("address")
+            };
+
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            products.push(product);
+            localStorage.setItem('products', JSON.stringify(products));
+
+            displayProduct(product);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    msg.innerHTML = translations[storedLanguage].successMessage;
+                    msg.style.color = "green";
+                    timestampElement.innerHTML = `Timestamp: ${timestamp}`;
+                    timestampElement.style.display = "block";
+                    setTimeout(() => {
+                        msg.innerHTML = "";
+                        timestampElement.style.display = "none";
+                    }, 5000);
+                    form.reset();
+                })
+                .catch(error => console.error('Error!', error.message));
+        });
+
+        loadProducts();
+    </script>
+</body>
+</html>

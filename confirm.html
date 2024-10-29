@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Summary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      background-image: url(images/bg.jpeg);
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      transition: background-color 0.3s;
+    }
+    .item:hover {
+      background-color: #f1f1f1;
+    }
+    .total {
+      font-size: 1.5em;
+      margin-top: 20px;
+      text-align: right;
+    }
+    .confirm-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    .confirm-button:hover {
+      background-color: #45a049;
+    }
+    .customer-details {
+      margin-bottom: 20px;
+      font-size: 1.1em;
+      color: #555;
+    }
+    .input-field {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    .input-field label {
+      margin-bottom: 5px;
+    }
+    .input-field input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Order Summary</h1>
+    <div class="input-field">
+      <label for="customer-name">Name:</label>
+      <input type="text" id="customer-name" placeholder="Enter your name" required>
+    </div>
+    <div class="input-field">
+      <label for="customer-phone">Phone:</label>
+      <input type="text" id="customer-phone" placeholder="Enter your phone number" required>
+    </div>
+    <div class="customer-details" id="customer-details"></div>
+    <div id="items-container"></div>
+    <div class="total" id="total"></div>
+    <button class="confirm-button" id="confirm-order-button">Confirm Order</button>
+  </div>
+  <script>
+    function displayOrderSummary() {
+      const itemsContainer = document.getElementById('items-container');
+      const totalElement = document.getElementById('total');
+      const customerDetailsElement = document.getElementById('customer-details');
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let total = 0;
+
+      itemsContainer.innerHTML = '';
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = '<p>No items in the cart.</p>';
+      } else {
+        cart.forEach(item => {
+          total += item.quantity * item.price;
+          itemsContainer.innerHTML += `<div class="item">${item.name} - ${item.quantity} kg @ ₹${item.price}/kg</div>`;
+        });
+      }
+
+      totalElement.textContent = `Total: ₹${total.toFixed(2)}`;
+    }
+
+    document.getElementById('confirm-order-button').addEventListener('click', () => {
+      const customerName = document.getElementById('customer-name').value.trim();
+      const customerNumber = document.getElementById('customer-phone').value.trim();
+
+      // Check if name and phone number are provided
+      if (!customerName || !customerNumber) {
+        alert('Please fill in both your name and phone number.');
+        return;
+      }
+
+      // Save customer details in local storage
+      localStorage.setItem('customerName', customerName);
+      localStorage.setItem('customerNumber', customerNumber);
+      
+      // Update the customer details display
+      document.getElementById('customer-details').textContent = `Customer: ${customerName} | Phone: ${customerNumber}`;
+
+      // Logic to finalize the order, like storing it in a database
+      alert('Order confirmed! Thank you for your purchase.');
+      // Redirect to a thank you page or home page
+      window.location.href = 'thankyou.html';
+    });
+
+    // Call the display function on page load
+    displayOrderSummary();
+    
+  </script>
+</body>
+</html>

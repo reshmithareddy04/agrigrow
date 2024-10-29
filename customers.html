@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <link rel="stylesheet" href="customers.css"> <!-- Link to CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        small {
+            color: #666;
+        }
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="form-title">Customer Registration</h2>
+        <p id="form-description">Fill in the details below to connect with local farmers and access organic produce.</p>
+        <form id="customerForm" onsubmit="return handleSubmit();">
+            <!-- Full Name -->
+            <div class="input-group">
+                <label for="name" id="name-label">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" pattern="^[a-zA-Z\s]+$" title="Full name must only contain letters and spaces." required>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="input-group">
+                <label for="phone" id="phone-label">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your 10-digit phone number" pattern="\d{10}" title="Phone number must be 10 digits." required>
+            </div>
+
+            <!-- Email -->
+            <div class="input-group">
+                <label for="email" id="email-label">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Apartment Number -->
+            <div class="input-group">
+                <label for="apartment-number" id="apartment-label">Apartment Number</label>
+                <input type="text" id="apartment-number" name="apartment" placeholder="Enter your apartment number" required>
+            </div>
+
+            <!-- Locality -->
+            <div class="input-group">
+                <label for="locality" id="locality-label">Locality</label>
+                <input type="text" id="locality" name="locality" placeholder="Enter your locality" required>
+            </div>
+
+            <!-- Aadhar Card Number -->
+            <div class="input-group">
+                <label for="aadhar-number" id="aadhar-label">Aadhar Card Number</label>
+                <input type="text" id="aadhar-number" name="aadhar" placeholder="Enter your 12-digit Aadhar card number" pattern="\d{12}" title="Aadhar number must be 12 digits" required>
+                <small>Aadhar number must be 12 digits</small>
+            </div>
+
+            <!-- Preferred Type of Produce -->
+            <div class="input-group">
+                <label for="produce-type" id="produce-label">Preferred Type of Produce</label>
+                <select id="produce-type" name="produce" multiple required>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="grains">Grains</option>
+                    <option value="dairy">Dairy</option>
+                </select>
+            </div>
+
+            <!-- Delivery Preferences -->
+            <div class="input-group">
+                <label for="delivery-preference" id="delivery-label">Delivery Preference</label>
+                <select id="delivery-preference" name="delivery" required>
+                    <option value="weekly">Weekly</option>
+                    <option value="bi-weekly">Bi-Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+
+            <!-- Submit and Go Buttons -->
+            <button type="submit" id="submit-button">Submit</button>
+            <button type="button" id="go-button" style="margin-top: 10px;" onclick="goToViewConsumers()">Go to View Consumers</button>
+        </form>
+        <div class="success-message" id="success-message">Thank you for registering! Your details have been submitted successfully.</div>
+    </div>
+
+    <script src="customers.js"></script> <!-- Link to JS file -->
+    <script>
+        // Function for basic form validation
+        function validateForm() {
+            const aadhar = document.getElementById('aadhar-number').value;
+            if (aadhar.length !== 12 || !/^\d+$/.test(aadhar)) {
+                alert('Aadhar number must be 12 digits.');
+                return false;
+            }
+            return true;
+        }
+
+        // Handle form submission
+        function handleSubmit() {
+            if (validateForm()) {
+                submitToGoogleSheet(); // Call Google Sheets submission
+                return false; // Prevent default form submission
+            }
+            return false; // Prevent submission if validation fails
+        }
+
+        // Google Sheets form submission
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwUOWkxAha2nEEjyUP_S2vlbIERtNIbHnqnoKNjYRqQ_NLpYE3z_Piz1F8f-U3EGGh8/exec'; // Replace with your Google Sheets script URL
+        const form = document.getElementById('customerForm');
+
+        function submitToGoogleSheet() {
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    document.getElementById('customerForm').reset(); // Clear the form after submission
+                    document.getElementById('success-message').style.display = 'block'; // Show success message
+                    console.log('Success!', response);
+                    // Redirect to view_consumers.html after submission
+                    window.location.href = 'view_consumers.html'; // Change to your view consumers URL
+                })
+                .catch(error => console.error('Error!', error.message));
+        }
+
+        // Function to navigate to view_consumers.html
+        function goToViewConsumers() {
+            window.location.href = 'veiw_consumers.html'; // Change to your view consumers URL
+        }
+
+        // Function to update the content based on language
+        function updateLanguageContent(language) {
+            const formTitle = document.getElementById('form-title');
+            const formDescription = document.getElementById('form-description');
+            const nameLabel = document.getElementById('name-label');
+            const phoneLabel = document.getElementById('phone-label');
+            const emailLabel = document.getElementById('email-label');
+            const apartmentLabel = document.getElementById('apartment-label');
+            const localityLabel = document.getElementById('locality-label');
+            const aadharLabel = document.getElementById('aadhar-label');
+            const produceLabel = document.getElementById('produce-label');
+            const deliveryLabel = document.getElementById('delivery-label');
+            const submitButton = document.getElementById('submit-button');
+
+            if (language === 'hi') {
+                formTitle.textContent = 'ग्राहक पंजीकरण';
+                formDescription.textContent = 'स्थानीय किसानों से जुड़ने और जैविक उत्पादों तक पहुंचने के लिए नीचे विवरण भरें।';
+                nameLabel.textContent = 'पूरा नाम';
+                phoneLabel.textContent = 'फोन नंबर';
+                emailLabel.textContent = 'ईमेल पता';
+                apartmentLabel.textContent = 'अपार्टमेंट नंबर';
+                localityLabel.textContent = 'स्थान';
+                aadharLabel.textContent = 'आधार कार्ड नंबर';
+                produceLabel.textContent = 'पसंदीदा उपज प्रकार';
+                deliveryLabel.textContent = 'डिलीवरी प्राथमिकता';
+                submitButton.textContent = 'जमा करें';
+            } else {
+                formTitle.textContent = 'Customer Registration';
+                formDescription.textContent = 'Fill in the details below to connect with local farmers and access organic produce.';
+                nameLabel.textContent = 'Full Name';
+                phoneLabel.textContent = 'Phone Number';
+                emailLabel.textContent = 'Email Address';
+                apartmentLabel.textContent = 'Apartment Number';
+                localityLabel.textContent = 'Locality';
+                aadharLabel.textContent = 'Aadhar Card Number';
+                produceLabel.textContent = 'Preferred Type of Produce';
+                deliveryLabel.textContent = 'Delivery Preference';
+                submitButton.textContent = 'Submit';
+            }
+        }
+    </script>
+</body>
+</html>

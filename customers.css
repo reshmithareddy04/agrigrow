@@ -1,0 +1,106 @@
+/* General reset and font */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body styling */
+body {
+    background-color: #f0f2f5;
+    background-image: url(images/bg.jpeg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container styling */
+.container {
+    background: #fff;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Input group styling */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* Input styling */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Button styling */
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+}
+
+/* Small text styling */
+small {
+    color: #999;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Success message styling */
+.success-message {
+    display: none;
+    color: #28a745;
+    font-weight: bold;
+    margin-top: 20px;
+}

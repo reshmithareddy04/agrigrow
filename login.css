@@ -1,0 +1,136 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Clean font */
+    background-image: url('images/bg.jpeg'); /* Background image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.85); /* White background with transparency */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    width: 90%;
+    max-width: 400px; /* Maximum width for the form */
+    text-align: center; /* Center text in container */
+}
+
+#app-name {
+    color: #2c802b; /* Green color for app name */
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-family: 'Georgia', serif;
+}
+
+#login-title, #signup-title {
+    color: #333; /* Darker color for titles */
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.input-group {
+    margin-bottom: 15px; /* Space between input fields */
+    text-align: left; /* Align labels to the left */
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #555; /* Label color */
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"] {
+    width: 100%; /* Full width for input fields */
+    padding: 10px; /* Padding for input fields */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size for inputs */
+    margin-top: 5px; /* Space above input fields */
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #2c802b; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+
+button[type="submit"] {
+    width: 100%; /* Full width for the button */
+    padding: 12px; /* Padding for the button */
+    font-size: 18px; /* Font size for the button */
+    color: #fff; /* White text for the button */
+    background-color: #2c802b; /* Green background for button */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+button[type="submit"]:hover {
+    background-color: #267025; /* Darker green on hover */
+}
+
+#signup-text, #login-text {
+    margin-top: 15px; /* Space above signup/login text */
+    font-size: 14px; /* Font size for the text */
+}
+
+#signup-text a,
+#login-text a {
+    color: #2c802b; /* Link color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Bold text for links */
+}
+
+.voice-command {
+    margin-top: 20px; /* Space above voice command button */
+}
+
+#mic-btn {
+    width: 100%; /* Full width for the mic button */
+    padding: 12px; /* Padding for the mic button */
+    font-size: 18px; /* Font size for the mic button */
+    color: #2c802b; /* Green color for the mic button text */
+    background-color: transparent; /* Transparent background */
+    border: 2px solid #2c802b; /* Green border */
+    border-radius: 5px; /* Rounded corners for mic button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+#mic-btn:hover {
+    background-color: #2c802b; /* Green background on hover */
+    color: #fff; /* White text on hover */
+}
+
+.extra-icons {
+    margin-top: 20px; /* Space above extra icons */
+}
+
+.extra-icons a {
+    margin: 0 10px; /* Space between icons */
+    font-size: 20px; /* Font size for icons */
+    color: #555; /* Icon color */
+    text-decoration: none; /* Remove underline from icons */
+}
+
+.extra-icons a:hover {
+    color: #2c802b; /* Change icon color on hover */
+}

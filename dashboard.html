@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrigrow - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css"> <!-- Linked CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1 id="dashboard-title">Agrigrow Dashboard</h1>
+            <p class="user-role" id="welcome-message">Welcome to your dashboard!</p>
+        </header>
+
+        <div class="navbar">
+            <ul>
+                <li>
+                    <a href="login.html" id="logout-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <h2 id="role-selection-title">Select Your Role</h2>
+            <div class="role-selection">
+                <button onclick="window.location.href='farmer_profile_validation.html'">
+                    <i class="fas fa-tractor"></i> <span id="farmer-role">Farmer</span>
+                </button>
+                <button onclick="window.location.href='customers.html'">
+                    <i class="fas fa-shopping-cart"></i> <span id="customer-role">Customer</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Enable Voice Command Button -->
+        <div class="voice-command">
+            <button id="mic-btn" type="button" onclick="speakInstructions()">
+                <i class="fas fa-microphone"></i> Enable Voice Command
+            </button>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Agrigrow. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="voice-integration.js"></script> <!-- Voice command script -->
+    <script>
+        // Function to set the language and store it in localStorage
+        function setLanguage(language) {
+            localStorage.setItem('selectedLanguage', language); // Store the selected language
+            updateLanguageContent(language); // Update the content based on language
+        }
+
+        // Function to update content based on selected language
+        function updateLanguageContent(language) {
+            const dashboardTitle = document.getElementById('dashboard-title');
+            const welcomeMessage = document.getElementById('welcome-message');
+            const roleSelectionTitle = document.getElementById('role-selection-title');
+            const logoutLink = document.getElementById('logout-link');
+            const farmerRole = document.getElementById('farmer-role');
+            const customerRole = document.getElementById('customer-role');
+
+            if (language === 'hi') {
+                dashboardTitle.textContent = 'एग्रीग्रो डैशबोर्ड';
+                welcomeMessage.textContent = 'आपके डैशबोर्ड में आपका स्वागत है!';
+                roleSelectionTitle.textContent = 'अपनी भूमिका चुनें';
+                logoutLink.textContent = 'लॉगआउट';
+                farmerRole.textContent = 'किसान';
+                customerRole.textContent = 'ग्राहक';
+            } else if (language === 'te') {
+                dashboardTitle.textContent = 'ఆగ్రిగ్రో డాష్‌బోర్డు';
+                welcomeMessage.textContent = 'మీ డాష్‌బోర్డ్‌కు స్వాగతం!';
+                roleSelectionTitle.textContent = 'మీ పాత్రను ఎంచుకోండి';
+                logoutLink.textContent = 'లాగౌట్';
+                farmerRole.textContent = 'రైతు';
+                customerRole.textContent = 'ఖాతాదారు';
+            } else {
+                dashboardTitle.textContent = 'Agrigrow Dashboard';
+                welcomeMessage.textContent = 'Welcome to your dashboard!';
+                roleSelectionTitle.textContent = 'Select Your Role';
+                logoutLink.textContent = 'Logout';
+                farmerRole.textContent = 'Farmer';
+                customerRole.textContent = 'Customer';
+            }
+        }
+
+        // Load the selected language from localStorage on page load
+        window.onload = function() {
+            const storedLanguage = localStorage.getItem('selectedLanguage') || 'en'; // Default to English
+            updateLanguageContent(storedLanguage);
+        }
+
+        // Function to speak instructions based on selected language
+        function speakInstructions() {
+            const storedLanguage = localStorage.getItem('selectedLanguage') || 'en'; // Get stored language
+            let message = '';
+
+            switch (storedLanguage) {
+                case 'en':
+                    message = 'Welcome to your dashboard! Please select your role as a farmer or customer.';
+                    break;
+                case 'hi':
+                    message = 'आपके डैशबोर्ड में आपका स्वागत है! कृपया किसान या ग्राहक के रूप में अपनी भूमिका चुनें।';
+                    break;
+                case 'te':
+                    message = 'మీ డాష్‌బోర్డ్‌కు స్వాగతం! దయచేసి రైతు లేదా కస్టమర్‌గా మీ పాత్రను ఎంచుకోండి.';
+                    break;
+                default:
+                    message = 'Welcome to your dashboard! Please select your role as a farmer or customer.'; 
+                    break;
+            }
+
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.rate = 1.2; // Speed of speech
+            speech.pitch = 1;  // Pitch of speech
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrigrow - Login</title>
+    
+    <link rel="stylesheet" href="login.css"> <!-- Linked CSS file for login -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+
+    <script>
+        // Retrieve the selected language from local storage
+        const selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+        // Function to update content based on selected language
+        function updateLanguageContent(language) {
+            const loginTitle = document.getElementById('login-title');
+            const emailLabel = document.getElementById('email-label');
+            const passwordLabel = document.getElementById('password-label');
+            const fullNameLabel = document.getElementById('full-name-label');
+            const phoneLabel = document.getElementById('phone-label');
+            const signupText = document.getElementById('signup-text');
+
+            if (language === 'hi') {
+                loginTitle.textContent = 'लॉगिन';
+                emailLabel.textContent = 'ईमेल पता';
+                passwordLabel.textContent = 'पासवर्ड';
+                fullNameLabel.textContent = 'पूरा नाम';
+                phoneLabel.textContent = 'फोन नंबर';
+                signupText.innerHTML = 'क्या आपके पास खाता नहीं है? <a href="signup.html" id="signup-link">साइन अप करें</a>';
+            } else if (language === 'te') {
+                loginTitle.textContent = 'లాగిన్';
+                emailLabel.textContent = 'ఇమెయిల్ చిరునామా';
+                passwordLabel.textContent = 'పాస్వర్డ్';
+                fullNameLabel.textContent = 'పూర్తి పేరు';
+                phoneLabel.textContent = 'ఫోన్ సంఖ్య';
+                signupText.innerHTML = 'మీకు ఖాతా లేదు? <a href="signup.html" id="signup-link">సైన్ అప్</a>';
+            } else {
+                loginTitle.textContent = 'Login';
+                emailLabel.textContent = 'Email Address';
+                passwordLabel.textContent = 'Password';
+                fullNameLabel.textContent = 'Full Name';
+                phoneLabel.textContent = 'Phone Number';
+                signupText.innerHTML = "Don't have an account? <a href='signup.html' id='signup-link'>Sign up</a>";
+            }
+        }
+
+        // Function to handle form submission
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            const form = event.target;
+            const timestamp = new Date().toISOString(); // Get current timestamp in ISO format
+            
+            // Set the timestamp value to a hidden input field
+            document.getElementById('timestamp').value = timestamp;
+
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbw0Ms9Tsbsj8LtKajcKDRmsYUa-WkQYtvX1hfKyPcYulAnNpW8HG6BOZjdcKzBnauoX/exec';
+
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: new FormData(form)
+            })
+            .then(response => {
+                if (response.ok) { // Check if response is successful
+                    window.location.href = 'dashboard.html'; // Redirect to dashboard
+                } else {
+                    console.error('Failed to submit form:', response.statusText);
+                    // Optionally: show error message to the user
+                }
+            })
+            .catch(error => console.error('Error!', error.message));
+        }
+
+        // Set the language when the page loads
+        window.onload = function() {
+            updateLanguageContent(selectedLanguage);
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2 id="app-name">AGRIGROW</h2>
+        <h3 id="login-title">Login</h3>
+
+        <form name="submit-to-google-sheet" onsubmit="handleLogin(event);">
+            <div class="input-group">
+                <label for="email" id="email-label">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password" id="password-label">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+
+            <div class="input-group">
+                <label for="full-name" id="full-name-label">Full Name</label>
+                <input type="text" id="full-name" name="full-name" placeholder="Full Name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="phone" id="phone-label">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+            </div>
+
+            <!-- Hidden input field for timestamp -->
+            <input type="hidden" id="timestamp" name="timestamp">
+
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <p id="signup-text">Don't have an account? <a href="signup.html" id="signup-link">Sign up</a></p>
+
+            <!-- Microphone (Voice Command) Button -->
+            <div class="voice-command">
+                <button id="mic-btn" type="button" onclick="speakInstructions()">
+                    <i class="fas fa-microphone"></i> Enable Voice Command
+                </button>
+            </div>
+
+            <!-- Additional icons for sharing or social media links -->
+            <div class="extra-icons">
+                <a href="#"><i class="fas fa-share-alt"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Function to speak instructions based on selected language
+        function speakInstructions() {
+            let message = 'Please enter your email address, password, full name, and phone number to login.';
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.rate = 1.2; // Speed of speech
+            speech.pitch = 1;  // Pitch of speech
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
+</body>
+</html>

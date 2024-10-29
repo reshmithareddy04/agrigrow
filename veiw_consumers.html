@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmers' Market</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="veiw_consumers.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header with Logo, Links, Search Bar, and Cart -->
+  <header class="header">
+    <div class="logo">
+      <img src="https://example.com/agri-grow-logo.png" alt="Agri-Grow Logo">
+      <h1>Agri-Grow</h1>
+    </div>
+    <div class="nav-links">
+      <a href="#"><i class="fas fa-home"></i> Home</a>
+      <a href="#"><i class="fas fa-leaf"></i> Products</a>
+      <a href="#"><i class="fas fa-shipping-fast"></i> Track Orders</a>
+      <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search products...">
+      <button><i class="fas fa-search"></i> Search</button>
+    </div>
+    <select id="language-selector">
+      <option value="en">English</option>
+      <option value="hi">Hindi</option>
+      <option value="te">Telugu</option>
+    </select>
+  </header>
+
+  <h1 id="product-title">Farmers' Market</h1>
+  <div class="product-container" id="product-container">
+    <!-- Product cards will be dynamically injected here -->
+  </div>
+
+  <script>
+    // Load the selected language from localStorage or default to 'en'
+    const storedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+    // Translations object
+    const translations = {
+      en: {
+        title: "Farmer's Market",
+        category: "Category",
+        price: "Price (₹ per kg)",
+        paymentNumber: "Phone Number",
+        addButton: "Add Product",
+        successMessage: "Product added successfully!",
+      },
+      hi: {
+        title: "किसान का बाजार",
+        category: "श्रेणी",
+        price: "कीमत (₹ प्रति किलोग्राम)",
+        paymentNumber: "फोन नंबर",
+        addButton: "उत्पाद जोड़ें",
+        successMessage: "उत्पाद सफलतापूर्वक जोड़ा गया!",
+      },
+      te: {
+        title: "వ్యవసాయదారుల మార్కెట్",
+        category: "వర్గం",
+        price: "ధర (₹ కిలో)",
+        paymentNumber: "ఫోన్ నంబర్",
+        addButton: "ఉత్పత్తిని చేర్చండి",
+        successMessage: "ఉత్పత్తి విజయవంతంగా చేర్చబడింది!",
+      }
+    };
+
+    // Function to update content based on the selected language
+    function updateLanguageContent(language) {
+      const translation = translations[language];
+      document.getElementById("product-title").textContent = translation.title;
+    }
+
+    // Apply the stored language on page load
+    updateLanguageContent(storedLanguage);
+
+    // Event listener for changing the language
+    document.getElementById("language-selector").addEventListener("change", (event) => {
+      const selectedLanguage = event.target.value;
+      localStorage.setItem('selectedLanguage', selectedLanguage);
+      updateLanguageContent(selectedLanguage);
+    });
+
+    // API URL
+    const API_URL = 'https://script.google.com/macros/s/AKfycbz3y4p6u8Bwh7W-TOEvkPZ4WMoOCfDn5p8r_nLkfBncK7yGqf4wtXDV98u-1D68lNPD/exec';
+    const DEFAULT_IMAGE_URL = 'https://www.bigbasket.com/your-default-image.jpg';
+
+    async function fetchSheetData() {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        displayData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        alert('There was an error fetching the product data. Please try again later.');
+      }
+    }
+
+    function displayData(data) {
+      const productContainer = document.getElementById('product-container');
+      productContainer.innerHTML = '';
+      data.forEach(row => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        const name = row.name || "Unnamed Product";
+        const category = row.category || "General";
+        const price = row.price || "Price not available";
+        const paymentNumber = row.payment_number || "Payment number not available";
+
+        productCard.innerHTML = `
+          <h3>${name}</h3>
+          <p>${translations[storedLanguage].category}: ${category}</p>
+          <p class="price">${translations[storedLanguage].price}: ₹${price} /kg</p>
+          <p>${translations[storedLanguage].paymentNumber}: ${paymentNumber}</p>
+          <select class="quantity-select" id="quantity-${row.id}">
+            <option value="1">1 kg</option>
+            <option value="2">2 kg</option>
+            <option value="5">5 kg</option>
+          </select>
+          <button class="add-button" onclick="buyProduct('${name}', 'quantity-${row.id}', ${price})">
+            <i class="fas fa-plus"></i> ${translations[storedLanguage].addButton}
+          </button>
+        `;
+
+        productContainer.appendChild(productCard);
+      });
+    }
+
+    function buyProduct(productName, quantityId, price) {
+      const quantity = document.getElementById(quantityId).value;
+      const cartItem = { name: productName, quantity: quantity, price: price };
+      
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(cartItem);
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      alert(`Added ${quantity} kg of ${productName} to the cart.`);
+    }
+
+    // Fetch the product data when the page loads
+    fetchSheetData();
+  </script>
+</body>
+</html>

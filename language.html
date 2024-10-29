@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Language</title>
+    <link rel="stylesheet" href="language.css"> <!-- Link to CSS file -->
+</head>
+<body>
+    <div class="language-container">
+        <h1>Select Your Language</h1>
+        <div class="language-options">
+            <button class="language-button" data-lang="en">English</button>
+            <button class="language-button" data-lang="hi"> हिंदी </button>
+            <button class="language-button" data-lang="te">తెలుగు</button>
+        </div>
+        <button id="voice-btn">🔊 Speak</button>
+        <button id="continue-btn">Continue</button>
+    </div>
+
+    <script>
+        const languageButtons = document.querySelectorAll('.language-button');
+        let selectedLanguage = 'en'; // Default language
+
+        // Add click event listeners to each language button
+        languageButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                selectedLanguage = this.getAttribute('data-lang');
+                languageButtons.forEach(btn => btn.classList.remove('active')); // Remove active class from all
+                this.classList.add('active'); // Add active class to the selected button
+
+                // Feedback after selecting a language
+                const feedbackMessage = {
+                    en: 'You have selected English.',
+                    hi: 'आपने हिंदी चुनी है।',
+                    te: 'మీరు తెలుగు ఎంచుకున్నారు.',
+                };
+
+                const selectedFeedback = feedbackMessage[selectedLanguage];
+                const feedbackSpeech = new SpeechSynthesisUtterance(selectedFeedback);
+                window.speechSynthesis.speak(feedbackSpeech);
+            });
+        });
+
+        // Voice button functionality
+        document.getElementById('voice-btn').addEventListener('click', function() {
+            let message = '';
+
+            switch (selectedLanguage) {
+                case 'en':
+                    message = 'Please select your language.';
+                    break;
+                case 'hi':
+                    message = 'कृपया अपनी भाषा चुनें।';
+                    break;
+                case 'te':
+                    message = 'మీరు భాషను ఎంచుకోండి.';
+                    break;
+                default:
+                    message = 'Please select your language.';
+                    break;
+            }
+
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.rate = 1.2; // Speed of speech
+            speech.pitch = 1;  // Pitch of speech
+            window.speechSynthesis.speak(speech);
+        });
+
+        // Continue button functionality
+        document.getElementById('continue-btn').addEventListener('click', function() {
+            localStorage.setItem('selectedLanguage', selectedLanguage); // Store the selected language
+            window.location.href = 'login.html'; // Redirect to login page
+        });
+
+        // Set default language (if previously selected)
+        const storedLanguage = localStorage.getItem('selectedLanguage');
+        if (storedLanguage) {
+            selectedLanguage = storedLanguage;
+            document.querySelector(`.language-button[data-lang="${selectedLanguage}"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    background-image: url(images/bg.jpeg);
+    background-size: cover;
+    background-position: center;
+    color: #333;
+}
+
+.dashboard-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+    border-radius: 12px; /* Slightly larger border radius */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+    padding: 30px; /* Increased padding */
+    backdrop-filter: blur(8px); /* Blur effect for background */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px; /* Increased margin for better spacing */
+}
+
+h1 {
+    font-size: 2.8em; /* Slightly larger font */
+    color: #4CAF50;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Text shadow for depth */
+}
+
+.user-role {
+    font-size: 1.5em; /* Larger font size */
+    color: #777;
+}
+
+.navbar {
+    background: rgba(76, 175, 80, 0.9); /* Semi-transparent green */
+    color: white;
+    padding: 15px 20px; /* More padding */
+    text-align: right;
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 20px; /* Space below navbar */
+}
+
+.navbar ul {
+    list-style: none;
+}
+
+.navbar ul li {
+    display: inline;
+    margin-right: 30px; /* Increased spacing */
+}
+
+.navbar ul li:last-child {
+    margin-right: 50px; /* Additional space for logout button */
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold; /* Bold text for links */
+    transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.navbar a:hover {
+    color: #FFD700; /* Gold color on hover */
+}
+
+.content {
+    margin: 20px 0;
+}
+
+.role-selection {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Allow wrapping for small screens */
+}
+
+.role-selection button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px; /* More rounded corners */
+    padding: 20px 30px; /* More padding for buttons */
+    font-size: 1.5em; /* Larger button font size */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Added transform transition */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Button shadow */
+}
+
+.role-selection button:hover {
+    background-color: #45a049;
+    transform: translateY(-3px); /* Lift effect on hover */
+}
+
+.voice-command {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.voice-command button {
+    background-color: #008CBA; /* Blue background for the voice command button */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 25px; /* More padding */
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.voice-command button:hover {
+    background-color: #007B9A; /* Darker blue on hover */
+    transform: translateY(-3px); /* Lift effect on hover */
+}
+
+.language-selector {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.language-selector button {
+    background-color: #FFC107; /* Yellow for language selector */
+    color: white;
+    border: none;
+    border-radius: 10px; /* More rounded corners */
+    padding: 10px 15px;
+    font-size: 1.2em;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.language-selector button:hover {
+    background-color: #FFB300; /* Darker yellow on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px; /* More margin above footer */
+    font-size: 1em; /* Slightly larger footer font */
+    color: #555;
+    border-top: 1px solid #e0e0e0; /* Top border for footer */
+    padding-top: 10px; /* Padding for footer content */
+}

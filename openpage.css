@@ -1,0 +1,107 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Fallback background color */
+    background-image: url('images/bg.jpeg'); /* Add your image here */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-attachment: fixed; /* Ensures background is fixed while scrolling */
+}
+
+/* Container Styling */
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent container */
+    padding: 30px; /* Increased padding for a spacious feel */
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Deeper shadow for more depth */
+    width: 400px; /* Slightly wider for better layout */
+    text-align: center;
+    position: relative;
+}
+
+/* Agrigrow Heading */
+h2 {
+    font-size: 36px; /* Larger and bolder */
+    color: #4CAF50; /* Bright green for the logo */
+    margin-bottom: 5px; /* Spacing below the heading */
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase for a stronger brand identity */
+    letter-spacing: 1px; /* Adds spacing between letters */
+    font-family: 'Georgia', serif; /* Change font for the logo */
+}
+
+h3 {
+    margin-top: 5px; /* Spacing above the subtitle */
+    margin-bottom: 30px; /* Spacing below the subtitle */
+    font-weight: normal;
+    color: #333; /* Dark color for the subtitle */
+    font-size: 20px; /* Size of the subtitle */
+}
+
+/* Quote Styling */
+.quote {
+    font-size: 1.5em;
+    margin: 20px 0;
+    padding: 20px;
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 10px;
+    background-color: #ffffff; /* White background for quote */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.quote i {
+    color: #4CAF50; /* Green color for the icon */
+    font-size: 2em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Primary Button */
+.signup-button {
+    display: inline-block;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    padding: 15px 25px; /* Padding for the button */
+    text-decoration: none;
+    border-radius: 50px; /* Rounded button */
+    font-size: 1.2em;
+    position: relative;
+    transition: background-color 0.3s;
+    margin-top: 30px; /* Spacing above the button */
+}
+
+.signup-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.signup-button::after {
+    content: '→'; /* Arrow icon */
+    margin-left: 10px;
+    font-size: 1.2em;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+.signup-button:hover::after {
+    transform: translateY(-50%) translateX(5px); /* Arrow animation on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+    .container {
+        width: 95%; /* Full width on smaller screens */
+    }
+}

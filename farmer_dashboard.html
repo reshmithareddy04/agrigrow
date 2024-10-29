@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard</title>
+    <link rel="stylesheet" href="farmer_dashboard.css"> <!-- Link to CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <h1 id="welcome-message">Welcome, <span id="farmer-name">[Farmer's Name]</span></h1>
+            <button id="logout-btn">Logout</button>
+        </header>
+
+        <main class="main-content">
+            <h2 id="select-option-title">Select an Option</h2>
+            <div class="button-container">
+                <button class="dashboard-button" id="display-goods-btn" onclick="location.href='goods.html'">Display Goods</button>
+                <button class="dashboard-button" id="crop-analysis-btn" onclick="location.href='crop_analysis.html'">Crop Analysis</button>
+                <button class="dashboard-button" id="animal-health-btn" onclick="location.href='animal_health.html'">Animal Health</button>
+                <button class="dashboard-button" id="delivery-options-btn" onclick="location.href='delivery_options.html'">Delivery Options</button>
+                <button class="dashboard-button" id="contacts-btn" onclick="location.href='contacts.html'">Veterinarians & Medicines</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Farmers First. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="farmer_dashboard.js"></script> <!-- Link to JS file -->
+    <script>
+        // Function to update the content based on language
+        function updateLanguageContent(language) {
+            const welcomeMessage = document.getElementById('welcome-message');
+            const selectOptionTitle = document.getElementById('select-option-title');
+            const displayGoodsBtn = document.getElementById('display-goods-btn');
+            const cropAnalysisBtn = document.getElementById('crop-analysis-btn');
+            const animalHealthBtn = document.getElementById('animal-health-btn');
+            const deliveryOptionsBtn = document.getElementById('delivery-options-btn');
+            const contactsBtn = document.getElementById('contacts-btn');
+
+            if (language === 'hi') {
+                welcomeMessage.textContent = 'स्वागत है, ' + welcomeMessage.children[0].textContent;
+                selectOptionTitle.textContent = 'एक विकल्प चुनें';
+                displayGoodsBtn.textContent = 'सामान दिखाएँ';
+                cropAnalysisBtn.textContent = 'फसल विश्लेषण';
+                animalHealthBtn.textContent = 'पशु स्वास्थ्य';
+                deliveryOptionsBtn.textContent = 'डिलीवरी विकल्प';
+                contactsBtn.textContent = 'वेटरनरी और दवाएं';
+            } else if (language === 'te') {
+                welcomeMessage.textContent = 'స్వాగతం, ' + welcomeMessage.children[0].textContent;
+                selectOptionTitle.textContent = 'ఒక ఎంపికను ఎంచుకోండి';
+                displayGoodsBtn.textContent = 'పదార్థాలను చూపించు';
+                cropAnalysisBtn.textContent = 'ఫसल విశ్లేషణ';
+                animalHealthBtn.textContent = 'జంతు ఆరోగ్యం';
+                deliveryOptionsBtn.textContent = 'డెలివరీ ఎంపికలు';
+                contactsBtn.textContent = 'వెటరన్ల మరియు మందులు';
+            } else {
+                welcomeMessage.textContent = 'Welcome, ' + welcomeMessage.children[0].textContent;
+                selectOptionTitle.textContent = 'Select an Option';
+                displayGoodsBtn.textContent = 'Display Goods';
+                cropAnalysisBtn.textContent = 'Crop Analysis';
+                animalHealthBtn.textContent = 'Animal Health';
+                deliveryOptionsBtn.textContent = 'Delivery Options';
+                contactsBtn.textContent = 'Veterinarians & Medicines';
+            }
+        }
+
+        // Load the selected language from localStorage on page load
+        window.onload = function() {
+            const storedLanguage = localStorage.getItem('selectedLanguage') || 'en'; // Default to English
+            updateLanguageContent(storedLanguage);
+        }
+    </script>
+    <form name="submit-to-google-sheet">
+        <input name="email" type="email" placeholder="Email" required>
+        <button type="submit">Send</button>
+      </form>
+      
+      <script>
+        const scriptURL = '<SCRIPT URL>'
+        const form = document.forms['submit-to-google-sheet']
+      
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => console.log('Success!', response))
+            .catch(error => console.error('Error!', error.message))
+        })
+      </script>
+</body>
+</html>
