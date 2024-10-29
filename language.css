@@ -5,7 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #e8f0fe; /* Light blue background */
-    background-image: url(images/bg.jpeg);
+    background-image: url(bg.jpeg);
     margin: 0;
 }
 
