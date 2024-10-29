@@ -9,7 +9,7 @@
 /* Body styling */
 body {
     background-color: #f0f2f5;
-    background-image: url(images/bg.jpeg);
+    background-image: url(bg.jpeg);
     display: flex;
     justify-content: center;
     align-items: center;
