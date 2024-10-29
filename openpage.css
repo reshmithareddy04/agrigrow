@@ -8,7 +8,7 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f8f9fa; /* Fallback background color */
-    background-image: url('images/bg.jpeg'); /* Add your image here */
+    background-image: url('bg.jpeg'); /* Add your image here */
     background-size: cover;
     background-position: center;
     display: flex;
